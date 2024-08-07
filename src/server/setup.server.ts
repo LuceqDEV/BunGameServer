@@ -22,7 +22,7 @@ export class SetupServer {
     public async start(): Promise<void> {
         try {
             Bun.listen({
-                hostname: "127.0.0.1",
+                hostname: "0.0.0.0",
                 port: this._constants.serverPort,
                 socket: {
                     open: this._handleOpen,

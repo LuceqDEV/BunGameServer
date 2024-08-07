@@ -19,12 +19,11 @@ export class RequestHandler {
         this._messages.set(ClientPackets.ping, new PingRequest());
     }
 
-    public packets(connection: ConnectionModel, bytes: Uint8Array): void {
+    public async packets(connection: ConnectionModel, bytes: Uint8Array): Promise<void> {
         const buffer: ByteBuffer = new ByteBuffer();
 
         if (bytes.length < 4) {
             this._logger.error('Pacote com tamanho insuficiente...');
-
             return;
         }
 
@@ -40,7 +39,7 @@ export class RequestHandler {
                 return;
             }
 
-            messageHandler.receiver(connection, buffer.getBytes());
+            await messageHandler.receiver(connection, buffer.getBytes());
         } catch (error) {
             console.log(error);
         }

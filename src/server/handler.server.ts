@@ -57,12 +57,10 @@ export class HandlerServer {
                 if (this._packetSize > 0 && this._ringBuffer.length >= this._packetSize) {
                     const packet: Uint8Array = this._ringBuffer.take(this._packetSize);
 
-                    try {
-                        await this._processPacket(socket, packet);
-                    } catch (error) {
+                    this._processPacket(socket, packet).catch(error => {
                         this._logger.error('Erro ao processar pacote: ' + error);
                         this._cleanupConnection(socket);
-                    }
+                    });
 
                     this._packetSize = -1;
                 } else {
@@ -86,7 +84,7 @@ export class HandlerServer {
                 return;
             }
 
-            this._requestHandler.packets(connection, packet);
+            await this._requestHandler.packets(connection, packet);
 
         } catch (error) {
             this._logger.error('Erro ao processar pacoteasdasdasd: ' + error);
