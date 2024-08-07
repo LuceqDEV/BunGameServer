@@ -29,6 +29,7 @@ export class RequestHandler {
         }
 
         buffer.putBytes(bytes);
+        buffer.getBytes()
         const header: number = buffer.getInt32();
 
         try {
