@@ -4,7 +4,7 @@ import { MemoryServer } from "./memory.server";
 import { ConnectionModel } from "../models/connection.model";
 import { ByteBuffer } from "../network/buffers/byte-buffer";
 import { RingBuffer } from "../network/buffers/ring-buffer";
-import { RequestHandler } from "../network/handler/request/request.handler";
+import { RequestHandler } from "../network/handlers/request/request.handler";
 
 export class HandlerServer {
     private _logger: LoggerUtils;
