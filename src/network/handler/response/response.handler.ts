@@ -19,12 +19,12 @@ export class ResponseHandler {
     }
 
     public static dataToAll(bytes: Uint8Array): void {
-        const logger = LoggerUtils.get();
-        const clients = MemoryServer.get();
-        const filledSlots = clients.clientConnections.getFilledSlots();
+        const logger: LoggerUtils = LoggerUtils.get();
+        const clients: MemoryServer = MemoryServer.get();
+        const filledSlots: Iterable<number> = clients.clientConnections.getFilledSlots();
 
         for (const i of filledSlots) {
-            const client = clients.clientConnections.get(i);
+            const client: ConnectionModel | undefined = clients.clientConnections.get(i);
 
             if (client?.isConnected()) {
                 try {
@@ -37,12 +37,12 @@ export class ResponseHandler {
     }
 
     public static dataToAllExcept(except: ConnectionModel, bytes: Uint8Array): void {
-        const logger = LoggerUtils.get();
-        const clients = MemoryServer.get();
-        const filledSlots = clients.clientConnections.getFilledSlots();
+        const logger: LoggerUtils = LoggerUtils.get();
+        const clients: MemoryServer = MemoryServer.get();
+        const filledSlots: Iterable<number> = clients.clientConnections.getFilledSlots();
 
         for (const i of filledSlots) {
-            const client = clients.clientConnections.get(i);
+            const client: ConnectionModel | undefined = clients.clientConnections.get(i);
 
             if (client?.isConnected() && client.id !== except.id && client.inGame) {
                 try {
