@@ -2,6 +2,10 @@
   "name": "bungameserver",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun run index.ts --watch"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
