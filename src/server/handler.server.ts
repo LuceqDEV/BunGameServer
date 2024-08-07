@@ -79,7 +79,7 @@ export class HandlerServer {
     private async _processPacket(socket: Socket, packet: Uint8Array): Promise<void> {
         try {
             const filledSlots: (ConnectionModel | undefined)[] = this._memory.clientConnections.getFilledSlotsAsList();
-            const connection = filledSlots.find(conn => conn?.socket === socket);
+            const connection: ConnectionModel | undefined = filledSlots.find(conn => conn?.socket === socket);
 
             if (!connection) {
                 this._logger.error('Conexão não encontrada para o socket: ' + socket.remoteAddress);
