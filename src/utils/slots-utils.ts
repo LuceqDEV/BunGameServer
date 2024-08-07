@@ -1,4 +1,4 @@
-export class Slots<T> {
+export class SlotsUtils<T> {
     private _slots: (T | undefined)[];
 
     constructor(size: number) {
