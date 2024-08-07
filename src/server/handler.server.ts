@@ -4,10 +4,12 @@ import { MemoryServer } from "./memory.server";
 import { ConnectionModel } from "../models/connection.model";
 import { ByteBuffer } from "../network/buffers/byte-buffer";
 import { RingBuffer } from "../network/buffers/ring-buffer";
+import { RequestHandler } from "../network/handler/request/request.handler";
 
 export class HandlerServer {
     private _logger: LoggerUtils;
     private _memory: MemoryServer;
+    private _requestHandler: RequestHandler;
     private _ringBuffer: RingBuffer;
     private _byteBuffer: ByteBuffer;
     private _packetSize: number = -1;
@@ -15,6 +17,7 @@ export class HandlerServer {
     constructor() {
         this._logger = LoggerUtils.get();
         this._memory = MemoryServer.get();
+        this._requestHandler = new RequestHandler()
         this._ringBuffer = new RingBuffer(1024);
         this._byteBuffer = new ByteBuffer();
     }
@@ -75,9 +78,18 @@ export class HandlerServer {
 
     private async _processPacket(socket: Socket, packet: Uint8Array): Promise<void> {
         try {
-            console.log('Processando pacote:', packet + ' :' + socket.remoteAddress);
+            const filledSlots: (ConnectionModel | undefined)[] = this._memory.clientConnections.getFilledSlotsAsList();
+            const connection = filledSlots.find(conn => conn?.socket === socket);
+
+            if (!connection) {
+                this._logger.error('Conexão não encontrada para o socket: ' + socket.remoteAddress);
+                return;
+            }
+
+            this._requestHandler.packets(connection, packet);
+
         } catch (error) {
-            this._logger.error('Erro ao processar pacote: ' + error);
+            this._logger.error('Erro ao processar pacoteasdasdasd: ' + error);
             this._cleanupConnection(socket);
         }
     }
