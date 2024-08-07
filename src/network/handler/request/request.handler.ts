@@ -3,7 +3,7 @@ import type { RequestMessageInterface } from "./request-message.interface";
 import { LoggerUtils } from "../../../utils/logger-utils";
 import { ByteBuffer } from "../../buffers/byte-buffer";
 import { ClientPackets } from "../../packets/client.packets";
-import { PingRequestMessage } from "./messages/ping.request";
+import { PingRequest } from "./messages/ping.request";
 
 export class RequestHandler {
     private _messages: Map<number, RequestMessageInterface>;
@@ -16,7 +16,7 @@ export class RequestHandler {
     }
 
     private initMessages(): void {
-        this._messages.set(ClientPackets.ping, new PingRequestMessage());
+        this._messages.set(ClientPackets.ping, new PingRequest());
     }
 
     public packets(connection: ConnectionModel, bytes: Uint8Array): void {
